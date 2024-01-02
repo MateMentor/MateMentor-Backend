@@ -2,6 +2,8 @@
 
 // server.ts
 
+import sequelize from "./db";
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -51,6 +53,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-        logger.info(`Server is running on ${PORT} 🔥🚀`);
+sequelize.sync({}).then(() => {
+        app.listen(PORT, () => {
+                logger.info(`Server is running on ${PORT} 🔥🚀`);
+        });
 });
