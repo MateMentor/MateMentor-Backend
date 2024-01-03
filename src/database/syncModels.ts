@@ -5,7 +5,7 @@ import sequelize from "./sequelize";
 
 async function syncModels() {
         try {
-                await sequelize.sync({ force: false });
+                await sequelize.sync({ force: true });
                 logger.info("All models were synchronized successfully.");
         } catch (error) {
                 logger.error("Unable to synchronize models:", error);

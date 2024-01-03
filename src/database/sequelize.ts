@@ -5,14 +5,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-        "chess_db",
-        "myuser",
-        `${process.env.SUPERUSER}`,
-        {
-                host: "localhost",
-                dialect: "postgres",
-        },
-);
+const password = process.env.SUPERUSER;
+
+const sequelize = new Sequelize("chess_db", "myuser", password, {
+        host: "localhost",
+        dialect: "postgres",
+});
 
 export default sequelize;

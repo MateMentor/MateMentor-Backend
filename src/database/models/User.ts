@@ -11,6 +11,8 @@ class User extends Model {
         public username!: string;
         public email!: string;
         public password!: string;
+        public loginAttempts!: number;
+        public lockUntil!: number;
 
         static async hashPassword(password: string): Promise<string> {
                 const salt = await bcrypt.genSalt(10);
@@ -42,6 +44,15 @@ User.init(
                         validate: {
                                 notEmpty: true,
                         },
+                },
+                lockUntil: {
+                        type: DataTypes.DATE,
+                        allowNull: true, // Allow null for no lock
+                },
+                loginAttempts: {
+                        type: DataTypes.INTEGER,
+                        allowNull: false,
+                        defaultValue: 0, // Default to 0 attempts
                 },
         },
         {
