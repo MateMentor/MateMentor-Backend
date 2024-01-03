@@ -1,8 +1,6 @@
 /** @format */
 
-// server.ts
-
-import sequelize from "./db";
+import sequelize from "./sequelize";
 
 import express from "express";
 import cors from "cors";
@@ -11,8 +9,9 @@ import { Request, Response, NextFunction } from "express";
 import { HttpError } from "./HttpError";
 import helmet from "helmet";
 import compression from "compression";
+import "./db";
 
-import logger from "./logger"; // Make sure this is your Winston logger
+import logger from "./logger";
 
 dotenv.config();
 
@@ -37,14 +36,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
         logger.error(err.stack);
         let errorMessage = "Something broke!";
 
-        // If it's an HttpError, use its message and status
         if (err instanceof HttpError) {
                 res.status(err.status).send({
                         error: true,
                         message: err.message,
                 });
         } else {
-                // In development, provide stack trace, else a generic message
                 if (process.env.NODE_ENV === "development") {
                         errorMessage = err.stack || errorMessage;
                 }
@@ -57,4 +54,11 @@ sequelize.sync({}).then(() => {
         app.listen(PORT, () => {
                 logger.info(`Server is running on ${PORT} 🔥🚀`);
         });
+});
+
+process.on("SIGINT", async () => {
+        logger.info("Closing database connection...");
+        await sequelize.close();
+        logger.info("Database connection closed. Exiting now...");
+        process.exit();
 });
