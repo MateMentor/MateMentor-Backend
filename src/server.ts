@@ -13,6 +13,8 @@ import "./db";
 
 import logger from "./logger";
 
+import authRouter from "./routes/authRoutes";
+
 dotenv.config();
 
 const app = express();
@@ -28,8 +30,10 @@ app.use(compression());
 // Routes
 app.get("/", (req: Request, res: Response) => {
         logger.info("Hello world route was accessed.");
-        res.send("Hello world1");
+        res.send("Hello world!");
 });
+
+app.use("/api/v1/auth", authRouter);
 
 // Error Handling Middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
