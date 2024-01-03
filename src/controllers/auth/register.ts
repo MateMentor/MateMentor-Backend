@@ -2,7 +2,7 @@
 
 import { Op } from "sequelize";
 
-import User from "../../models/User";
+import User from "../../database/models/User";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 

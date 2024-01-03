@@ -1,17 +1,17 @@
 /** @format */
 
-import sequelize from "./sequelize";
+import sequelize from "./database/sequelize";
 
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
-import { HttpError } from "./HttpError";
+import { HttpError } from "./utilities/HttpError";
 import helmet from "helmet";
 import compression from "compression";
-import "./db";
+import "./database/initializeDB";
 
-import logger from "./logger";
+import logger from "./utilities/logger";
 
 import authRouter from "./routes/authRoutes";
 

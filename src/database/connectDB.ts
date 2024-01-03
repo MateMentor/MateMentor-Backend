@@ -1,14 +1,7 @@
 /** @format */
 
-// db.ts
-import logger from "./logger";
 import sequelize from "./sequelize";
-import "./models/User";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const isDevEnvironment = process.env.NODE_ENV === "development";
+import logger from "../utilities/logger";
 
 async function connectToDatabase(retries = 5, interval = 5000) {
         while (retries) {
@@ -38,24 +31,4 @@ async function connectToDatabase(retries = 5, interval = 5000) {
         }
 }
 
-async function syncModels() {
-        try {
-                await sequelize.sync({ force: false });
-                logger.info("All models were synchronized successfully.");
-        } catch (error) {
-                logger.error("Unable to synchronize models:", error);
-                throw error;
-        }
-}
-
-async function initializeDatabase() {
-        try {
-                await connectToDatabase();
-                await syncModels();
-        } catch (error) {
-                logger.error("Failed to initialize database:", error);
-                process.exit(1);
-        }
-}
-
-initializeDatabase();
+export default connectToDatabase;

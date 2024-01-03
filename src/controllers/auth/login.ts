@@ -4,7 +4,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../../models/User";
+import User from "../../database/models/User";
 
 async function login(req: Request, res: Response): Promise<Response | void> {
         try {
